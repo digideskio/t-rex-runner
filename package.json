@@ -1,0 +1,28 @@
+{
+  "name": "t-rex-runner",
+  "version": "1.0.0",
+  "description": "The t-rex runner in the game offline Chrome error page. Now support multiplayer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ppoffice/t-rex-runner.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/ppoffice/t-rex-runner/issues"
+  },
+  "homepage": "https://github.com/ppoffice/t-rex-runner#readme",
+  "publishConfig": {
+    "registry": "http://registry.npm.alibaba-inc.com"
+  },
+  "dependencies": {
+    "express": "~4.13.3",
+    "gulp": "~3.9.0",
+    "gulp-browserify": "~0.5.1",
+    "socket.io": "~1.3.6"
+  }
+}
