@@ -12,5 +12,4 @@ module.exports = {
   IS_MOBILE: window.navigator.userAgent.indexOf('Mobi') > -1,
   IS_TOUCH_ENABLED: 'ontouchstart' in window,
   BOTTOM_PAD: 10,
-  SOCKET_URL: 'ws://10.73.35.77:3030'
 }

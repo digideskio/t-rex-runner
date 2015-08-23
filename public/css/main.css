@@ -1,0 +1,30 @@
+body {
+  background-color: #f7f7f7;
+  color: #585858;
+}
+
+html {
+  font-size: 125%;
+}
+
+.interstitial-wrapper {
+  box-sizing: border-box;
+  font-size: 1em;
+  line-height: 1.6em;
+  margin: 100px auto 0;
+  max-width: 600px;
+  width: 100%;
+}
+
+@media (max-width: 400px) {
+  button,
+  [dir='rtl'] button {
+    float: none;
+    font-size: 1em;
+    width: 100%;
+  }
+
+}
+#offline-resources {
+  display: none;
+}

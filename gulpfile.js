@@ -22,5 +22,5 @@ gulp.task('browserify', function() {
           debug : !gulp.env.production
         }))
         .on('error', errorHandler)
-        .pipe(gulp.dest('./build'))
+        .pipe(gulp.dest('./public/js'))
 });

@@ -363,27 +363,23 @@ Runner.prototype = {
      */
     bind: function (socket) {
         this.socket = socket;
+        socket.on('player.new', this.addPlayer.bind(this));
         socket.on('player.list', this.addPlayers.bind(this));
         socket.on('player.jump.start', this.playerStartJump.bind(this));
         socket.on('player.jump.end', this.playerEndJump.bind(this));
         socket.on('player.over', this.playerOver.bind(this));
-        socket.on('game.start', this.activateGame.bind(this));
+        socket.on('player.disconnected', this.playerDisconnected.bind(this));
         socket.on('game.data', this.updateGameState.bind(this));
     },
     addPlayers: function (players) {
-        for(var playerId in this.players) {
-            if(!players[playerId]) {
-                delete this.players[playerId];
+        for(var i = 0; i < players.length; i++) {
+            var playerId = players[i];
+            if(!this.players[playerId]) {
+                this.addPlayer(playerId);
             }
-        }
-        for(var playerId in players) {
-            this.addPlayer(playerId);
         }
     },
     addPlayer: function (playerId) {
-        if(!playerId || this.players[playerId]) {
-            return;
-        }
         var tRex;
         if(playerId === this.socket.id) {
             tRex = this.tRex;
@@ -435,18 +431,11 @@ Runner.prototype = {
                     delete this.crashedPlayers[data.playerId];
                 }
             }.bind(this), 3000);
-            delete this.players[data.playerId];
         }
     },
-    activateGame: function () {
-        if(!this.activated) {
-            this.loadSounds();
-            this.activated = true;
-        }
-        if (!this.tRex.jumping) {
-            this.socket.emit('player.jump.start');
-            this.playSound(this.soundFx.BUTTON_PRESS);
-            this.tRex.startJump();
+    playerDisconnected: function (playerId) {
+        if(this.players[playerId]) {
+            delete this.players[playerId];
         }
     },
     /**
@@ -692,6 +681,7 @@ Runner.prototype = {
             this.clearCanvas();
 
             this.eachPlayer(function (player) {
+                console.log(player.id)
                 if (player.tRex.jumping) {
                     player.tRex.updateJump(deltaTime);
                 }
@@ -820,8 +810,8 @@ Runner.prototype = {
         if (!this.crashed && (Runner.keycodes.JUMP[String(e.keyCode)] ||
             e.type == Runner.events.TOUCHSTART)) {
             if (!this.activated) {
-                this.socket.emit('game.start');
-                this.activateGame();
+                this.loadSounds();
+                this.activated = true;
             }
             if (!this.tRex.jumping) {
                 this.socket.emit('player.jump.start');
